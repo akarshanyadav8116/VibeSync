@@ -21,7 +21,7 @@ import { UserLogin } from "../redux/userSlice";
 
 const Home = () => {
   const { user, edit } = useSelector((state) => state.user);
-  const {posts} = useSelector(state => state.posts);
+  const {posts} = useSelector((state) => state.posts);
   const [friendRequest, setFriendRequest] = useState([]);
   const [suggestedFriends, setSuggestedFriends] = useState([]);
   const [errMsg, setErrMsg] = useState("");

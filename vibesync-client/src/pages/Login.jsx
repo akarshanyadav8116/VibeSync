@@ -60,7 +60,7 @@ const Login = () => {
             <div className="p-2 bg-[#065ad8] rounded text-white">
               <TbSocial/>
             </div>
-            <span className="text-2xl text-[#065ad8] " font-semibold>VibeSync</span>
+            <span className="text-2xl text-[#065ad8] font-semibold">VibeSync</span>
           </div>
           <p className="text-ascent-1 text-base font-semibold">
             Log in to your account
@@ -104,7 +104,7 @@ const Login = () => {
                 <span className={`text-sm ${
                   errMsg?.status === "failed" ? "text-[#f64949fe]"
                   : "text-[#2ba150fe]"
-                }mt-0.5`}>
+                } mt-0.5`}>
                   {errMsg?.message}
                 </span>
               )

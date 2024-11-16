@@ -88,7 +88,7 @@ const Register = () => {
                     required: "Last Name is required!",
                   })}
                   styles="w-full"
-                  error={errors.firstName? errors.firstName?.message:""}
+                  error={errors.lastName? errors.lastName?.message:""}
               />
             </div>
 
@@ -135,16 +135,12 @@ const Register = () => {
             }
             />
           </div>
-            <Link
-            to="/reset-password"
-            className="text-sm text-right text-blue font-semibold">
-            Forgot password?</Link>
             {
               errMsg?.message && (
                 <span className={`text-sm ${
                   errMsg?.status === "failed" ? "text-[#f64949fe]"
                   : "text-[#2ba150fe]"
-                }mt-0.5`}>
+                } mt-0.5`}>
                   {errMsg?.message}
                 </span>
               )

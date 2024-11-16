@@ -39,7 +39,6 @@ export const handleFileUpload = async (uploadFile) => {
     } catch(error) {
         console.log(error);
     }
-
 };
 
 export const fetchPosts = async (token, dispatch, uri, data) => {
@@ -50,7 +49,6 @@ export const fetchPosts = async (token, dispatch, uri, data) => {
             method: "POST",
             data: data || {},
         });
-
         dispatch(SetPosts(res?.data));
         return;
     } catch (error) {
@@ -74,7 +72,7 @@ export const likePost = async ({uri, token}) => {
 export const deletePost = async(id, token) => {
     try {
         const res = await apiRequest({
-            url: "/posts" + id,
+            url: "/posts/" + id,
             token: token,
             method: "DELETE",
         });
@@ -112,7 +110,7 @@ export const sendFriendRequest = async (token, id) => {
             url: "/users/friend-request",
             token: token,
             method: "POST",
-            data: {requestTo: id},
+            data: { requestTo: id },
         });
         return;
     } catch(error) {

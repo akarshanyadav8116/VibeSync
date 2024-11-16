@@ -11,7 +11,7 @@ import {
   likePost,
   likePostComment,
   replyPostComment,
-} from "../controllers/postcontroller.js";
+} from "../controllers/postController.js";
 
 const router = express.Router();
 

@@ -1,10 +1,12 @@
 import JWT from "jsonwebtoken";
 
 const userAuth = async (req, res, next) => {
+
   const authHeader = req?.headers?.authorization;
+  console.log("here");
 
   if (!authHeader || !authHeader?.startsWith("Bearer")) {
-    next("Authentication== failed");
+    next("Authentication == failed");
   }
 
   const token = authHeader?.split(" ")[1];

@@ -7,13 +7,16 @@ import PasswordReset from "../models/passwordreset.js";
 
 dotenv.config();
 
-const { AUTH_EMAIL, AUTH_PASSWORD, APP_URL } = process.env;
+const { AUTH_EMAIL, AUTH_PASS, APP_URL } = process.env;
 
 let transporter = nodemailer.createTransport({
-  host: "smtp-mail.outlook.com",
+  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
     user: AUTH_EMAIL,
-    pass: AUTH_PASSWORD,
+    pass: AUTH_PASS,
   },
 });
 
@@ -24,10 +27,15 @@ export const sendVerificationEmail = async (user, res) => {
 
   const link = APP_URL + "users/verify/" + _id + "/" + token;
 
+  // console.log(AUTH_EMAIL, AUTH_PASS);
+
   //   mail options
   const mailOptions = {
-    from: AUTH_EMAIL,
-    to: email,
+    from: {
+      name: "VibeSync Team",
+      address: AUTH_EMAIL,
+    },
+    to: [email],
     subject: "Email Verification",
     html: `<div
     style='font-family: Arial, sans-serif; font-size: 20px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;'>
@@ -89,8 +97,11 @@ export const resetPasswordLink = async (user, res) => {
 
   //   mail options
   const mailOptions = {
-    from: AUTH_EMAIL,
-    to: email,
+    from: {
+      name: "VibeSync Team",
+      address: AUTH_EMAIL,
+    },
+    to: [email],
     subject: "Password Reset",
     html: `<p style="font-family: Arial, sans-serif; font-size: 16px; color: #333; background-color: #f7f7f7; padding: 20px; border-radius: 5px;">
          Password reset link. Please click the link below to reset password.

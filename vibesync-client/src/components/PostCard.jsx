@@ -8,13 +8,12 @@ import Loading from "./Loading";
 import CustomButton from "./CustomButton";
 import TextInput from "./TextInput";
 import { useForm } from 'react-hook-form';
-import {postComments} from "../assets/data";
 import { apiRequest } from '../utils';
 
 const getPostComments = async (id) => {
   try {
     const res = await apiRequest({
-      url : "/posts/comments" + id,
+      url : "/posts/comments/" + id,
       method : "GET",
     });
     return res?.data;
@@ -63,7 +62,7 @@ const ReplyCard = ({reply, user, handleLike}) => {
   )
 }
 
-const CommentForm = (user,id,replyAt,getComments) => {
+const CommentForm = ({user,id,replyAt,getComments}) => {
   const [loading,setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const {
@@ -74,19 +73,21 @@ const CommentForm = (user,id,replyAt,getComments) => {
   } = useForm({
     mode:"onChange",
   });
+
   const onSubmit = async(data) => {
     setLoading(true);
     setErrMsg("");
     try {
+      
       const URL = !replyAt 
       ? "/posts/comment/" + id
-      : "/posts/reply-comment" + id;
+      : "/posts/reply-comment/" + id;
 
       const newData = {
         comment : data?.comment,
         from : user?.firstname + " " + user.lastName,
         replyAt : replyAt,
-      }
+      };
 
       const res = await apiRequest({
         url : URL,
@@ -116,7 +117,7 @@ const CommentForm = (user,id,replyAt,getComments) => {
         <div className="w-full flex items-center gap-2 py-4">
           <img 
           src={user?.profileUrl ?? NoProfile} 
-          alt="User Image"
+          alt="UserImage"
           className="w-10 h-10 rounded-full object-cover" />
 
         <TextInput
@@ -135,7 +136,7 @@ const CommentForm = (user,id,replyAt,getComments) => {
                 role="alert"
                 className={`text-sm ${
                   errMsg?.status === "failed"
-                  ? "text-[#f64949fe"
+                  ? "text-[#f64949fe]"
                   : "text-[#2ba150fe]"
                 } mt-0.5`}
                 >
@@ -174,7 +175,7 @@ const getComments = async (id) => {
 };
 const handleLike = async (uri) => {
   await likePost(uri);
-  await getComments(post?.id);
+  await getComments(post?._id);
 };
   return (
     <div
@@ -236,7 +237,7 @@ const handleLike = async (uri) => {
         </div>
         <div className="mt-4 flex justify-between items-center px-3 py-2 text-ascent-2 text-base border-t border-[#66666645]">
           <p className="flex gap-2 items-center text-base cursor-pointer"
-              onClick={() => handleLike("/post/like/" + post?._id)}
+              onClick={() => handleLike("/posts/like/" + post?._id)}
           >
             {post?.likes?.includes(user?._id) ? (
               <BiSolidLike size={20} color="blue"/>
@@ -248,7 +249,7 @@ const handleLike = async (uri) => {
 
           <p className="flex gap-2 items-center text-base cursor-pointer"
             onClick={() => {
-              setShowComments(showComments === post._id? null : post._id);
+              setShowComments(showComments === post?._id ? null : post?._id);
               getComments(post?._id);
             }}
           >
@@ -306,7 +307,7 @@ const handleLike = async (uri) => {
                         <div className="mt-2 flex gap-6">
                           <p className="flex gap-2 items-center text-base text-ascent-2 cursor-pointer"
                               onClick={() => {
-                                handleLike("/posts/like-comment" + comment?._id);
+                                handleLike("/posts/like-comment/" + comment?._id);
                               }}>
                             {comment?.likes?.includes(user?._id)? (
                               <BiSolidLike size={20} color="blue"/>
